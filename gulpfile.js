@@ -8,7 +8,7 @@ var autoprefixer = require('autoprefixer');
 var pkg = require('./package.json');
 
 gulp.task('watch', function() {
-  gulp.watch('src/**', ['build:style', 'build:example']);
+  gulp.watch('src/**', ['build:style', 'build:pages']);
 });
 gulp.task('build:style', function() {
   var banner = [
@@ -20,7 +20,7 @@ gulp.task('build:style', function() {
     ''
   ].join('\n');
   gulp
-    .src(['src/style/**/*.wxss', 'src/example/*.wxss'], { base: 'src' })
+    .src(['src/style/**/*.wxss', 'src/pages/*.wxss'], { base: 'src' })
     .pipe(less())
     .pipe(postcss([autoprefixer(['iOS >= 8', 'Android >= 4.1'])]))
     .pipe(
@@ -38,19 +38,19 @@ gulp.task('build:style', function() {
     )
     .pipe(gulp.dest('dist'));
 });
-gulp.task('build:example', function() {
+gulp.task('build:pages', function() {
   gulp
     .src(
       [
         'src/app.js',
         'src/app.json',
         'src/app.wxss',
-        'src/example/**',
-        '!src/example/*.wxss'
+        'src/pages/**',
+        '!src/pages/*.wxss'
       ],
       { base: 'src' }
     )
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['watch', 'build:style', 'build:example']);
+gulp.task('default', ['watch', 'build:style', 'build:pages']);
